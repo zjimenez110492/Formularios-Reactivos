@@ -1,11 +1,41 @@
-<p>
-    Email: <br/>
-    <input type="email" [formControl]="emailCtrl" >
-    
-</p>
-<p *ngIf="emailCtrl.errors">
-    <small *ngIf="emailCtrl.hasError('required') && emailCtrl.dirty">Este campo es requerido</small>
-    <small *ngIf="emailCtrl.hasError('maxlength') && emailCtrl.dirty">Este campo se pasa de 20 caracteres</small>
-    <small *ngIf="emailCtrl.hasError('minlength') && emailCtrl.dirty">Este campo tiene muy pocos caracteres</small>
-</p>
-<button [disabled]="emailCtrl.invalid" type="button" (click)="getEmail($event)">Save</button>
+<form [formGroup]="form" (ngSubmit)="save($event)">
+    <p>
+      Name: <br/>
+      <input type="text" formControlName="name">
+    </p>
+    <p>
+      Fecha: <br/>
+      <input type="date" formControlName="date">
+    </p>
+    <p>
+      Email: <br/>
+      <input type="email" formControlName="email">
+    </p>
+    <p>
+      Texto largo: ( {{form.get('text').value.length}} /200) <br/>
+      <textarea cols="30" rows="10" formControlName="text"></textarea>
+    </p>
+    <div *ngIf="form.get('text').errors && form.get('text').touched">
+      <p *ngIf="form.get('text').hasError('required')">
+        Es un campo requierido
+    </p>
+    <p *ngIf="form.get('text').hasError('maxlength')">
+      Maximo tamaño 200 caracteres
+    </p>
+    </div>
+    <p>
+      Category: <br/>
+      <select formControlName="category">
+        <option value="1">Category 1</option>
+        <option value="2">Category 2</option>
+        <option value="3">Category 3</option>
+      </select>
+    </p>
+    <p>
+      Genero: <br/>
+      <input type="radio" name="gender" formControlName="gender" value="male"> Male<br>
+      <input type="radio" name="gender" formControlName="gender" value="female"> Female<br>
+      <input type="radio" name="gender" formControlName="gender" value="other"> Other
+    </p>
+    <button type="submit" >Guardar</button>    
+  </form>
